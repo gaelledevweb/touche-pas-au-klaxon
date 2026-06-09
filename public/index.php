@@ -42,6 +42,16 @@ switch ($page) {
         $controller = new AuthController($db);
         $controller->logout();
         break;
+    
+    case 'create':
+        $controller = new TrajetController($db);
+        $controller->create();
+        break;
+
+    case 'store':
+        $controller = new TrajetController($db);
+        $controller->store();
+        break;
 
     default:
         http_response_code(404);
