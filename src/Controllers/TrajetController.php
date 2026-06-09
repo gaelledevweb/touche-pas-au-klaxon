@@ -1,13 +1,16 @@
 <?php
+require_once __DIR__ . '/../Models/Trip.php';
 
 class TrajetController {
-    private $db;
+    private Trip $tripModel;
 
-    public function __construct($db) {
-        $this->db = $db;
+    public function __construct(PDO $db) {
+        $this->tripModel = new Trip($db);
     }
 
     public function index() {
-        echo "La méthode index du contrôleur est atteinte !";
+        // Le contrôleur ne fait qu'appeler le modèle
+        $trips = $this->tripModel->findAllAvailable();
+        require_once __DIR__ . '/../Views/accueil.php';
     }
 }
