@@ -5,18 +5,26 @@ $db = require_once __DIR__ . '/../config/database.php';
 
 // Chargement du contrôleur
 require_once __DIR__ . '/../src/Controllers/TrajetController.php';
-$controller = new TrajetController($db);
 
-// On récupère la page demandée dans l'URL (ex: index.php?page=home)
+// On récupère la page demandée dans l'URL
 $page = $_GET['page'] ?? 'home';
 
-// Aiguillage (Routeur)
+// Routeur
 switch ($page) {
     case 'home':
-        // On instancie le contrôleur avec la base de données
         $controller = new TrajetController($db);
-        // On appelle la méthode qui affiche la liste
         $controller->index();
+        break;
+
+    case 'details':
+        // On récupère l'ID et on vérifie que c'est un nombre
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        if ($id) {
+            $controller = new TrajetController($db);
+            $controller->show($id);
+        } else {
+            echo "<h1>Erreur : ID invalide</h1>";
+        }
         break;
 
     case 'login':
@@ -24,7 +32,6 @@ switch ($page) {
         break;
 
     default:
-        // Si la page demandée n'existe pas
         http_response_code(404);
         echo "<h1>Erreur 404 : Page non trouvée</h1>";
         break;
