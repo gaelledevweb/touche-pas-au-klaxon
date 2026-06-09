@@ -8,16 +8,16 @@ class AuthController {
     }
 
     public function login() {
+        $error = null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            // Recherche de l'utilisateur
             $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email");
             $stmt->execute(['email' => $email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Vérification simple (à remplacer par password_verify($password, $user['password']) plus tard)
+            // Vérification simple (à sécuriser plus tard avec password_verify)
             if ($user && $password === $user['password']) {
                 $_SESSION['user'] = $user;
                 header('Location: index.php?page=home');

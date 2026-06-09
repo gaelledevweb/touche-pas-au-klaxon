@@ -1,3 +1,6 @@
+<?php
+require_once __DIR__ . '/includes/header.php'; 
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -7,13 +10,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light">
-
-<nav class="navbar navbar-dark bg-primary mb-4 shadow">
-    <div class="container">
-        <a class="navbar-brand" href="#">Touche Pas Au Klaxon</a>
-    </div>
-</nav>
-
 <div class="container">
     <h2 class="mb-4">Trajets disponibles</h2>
 
