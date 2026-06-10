@@ -1,0 +1,8 @@
+# Dépendances
+node_modules/
+
+# Fichiers de configuration locaux
+.env
+
+# Fichiers temporaires de l'IDE
+.vscode/

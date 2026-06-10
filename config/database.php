@@ -1,9 +1,11 @@
 <?php
 
-$host = 'localhost';
-$dbname = 'touche_pas_au_klaxon';
-$username = 'root';
-$password = '';
+$config = parse_ini_file(__DIR__ . '/../.env');
+
+$host = $config['DB_HOST'];
+$dbname = $config['DB_NAME'];
+$username = $config['DB_USER'];
+$password = $config['DB_PASS'];
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password, [

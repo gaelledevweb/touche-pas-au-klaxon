@@ -1,5 +1,4 @@
 <?php
-
 // Vérifie si l'utilisateur est connecté
 $isLogged = isset($_SESSION['user']) && !empty($_SESSION['user']);
 
@@ -7,8 +6,20 @@ $isLogged = isset($_SESSION['user']) && !empty($_SESSION['user']);
 $prenom = $_SESSION['user']['prenom'] ?? 'Utilisateur';
 $nom = $_SESSION['user']['nom'] ?? '';
 ?>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Touche Pas Au Klaxon</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/touche-pas-au-klaxon/public/css/style.css">
+</head>
+<body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
     <div class="container">
         <a class="navbar-brand" href="index.php?page=home">Touche Pas Au Klaxon</a>
         
