@@ -17,15 +17,16 @@ class AuthController
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
 
+            // Requête pour récupérer l'utilisateur par son email
             $stmt = $this->db->prepare("SELECT * FROM users WHERE email = :email");
             $stmt->execute(['email' => $email]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Vérification avec bcrypt (password_verify)
+            // Vérification avec password_verify (Bcrypt)
             if ($user && password_verify($password, $user['password'])) {
                 $_SESSION['user'] = $user;
 
-                // Redirection basée sur le rôle
+                // Redirection selon le rôle
                 if ($user['role'] === 'admin') {
                     header('Location: index.php?page=admin');
                 } else {
