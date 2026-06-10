@@ -75,5 +75,5 @@ class TrajetController
             header('Location: index.php?page=home');
             exit;
         }
-    }
+    }   
 }
