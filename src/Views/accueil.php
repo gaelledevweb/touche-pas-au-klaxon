@@ -11,7 +11,7 @@ require_once __DIR__ . '/includes/header.php';
 </head>
 <body class="bg-light">
 <div class="container">
-    <h2 class="mb-4">Trajets disponibles</h2>
+    <h1 class="mb-4">Pour obtenir plus d'informations sur un trajet, veuillez vous connecter</h1>
 
     <?php if (empty($trips)): ?>
         <div class="alert alert-info">
@@ -24,23 +24,21 @@ require_once __DIR__ . '/includes/header.php';
                     <thead class="table-primary">
                         <tr>
                             <th>Départ</th>
-                            <th>Arrivée</th>
-                            <th>Date</th>
+                            <th>Date/Heure</th>
+                            <th>Destination</th>
+                            <th>Date/Heure</th>
                             <th>Places</th>
-                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($trips as $trip): ?>
                         <tr>
                             <td><?= htmlspecialchars($trip['depart']) ?></td>
-                            <td><?= htmlspecialchars($trip['arrivee']) ?></td>
                             <td><?= htmlspecialchars($trip['date_heure_depart']) ?></td>
+                            <td><?= htmlspecialchars($trip['arrivee']) ?></td>
+                            <td><?= htmlspecialchars($trip['date_heure_arrivee']) ?></td>
                             <td>
                                 <span class="badge bg-success"><?= htmlspecialchars($trip['places_disponibles']) ?></span>
-                            </td>
-                            <td>
-                                <a href="index.php?page=details&id=<?= $trip['id'] ?>" class="btn btn-sm btn-outline-primary">Réserver</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -50,9 +48,9 @@ require_once __DIR__ . '/includes/header.php';
         </div>
     <?php endif; ?>
 </div>
-
+<?php require_once __DIR__ . '/includes/footer.php'; ?>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
 
-</html>
