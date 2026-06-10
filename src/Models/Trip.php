@@ -15,17 +15,22 @@ class Trip
      */
     public function create(array $data): bool
     {
-        $stmt = $this->db->prepare("
-            INSERT INTO trips (depart, arrivee, date, places, user_id) 
-            VALUES (:depart, :arrivee, :date, :places, :user_id)
-        ");
+
+        $sql = "INSERT INTO trips 
+                (agence_depart_id, agence_arrivee_id, date_heure_depart, date_heure_arrivee, places_totales, places_disponibles, auteur_id) 
+                VALUES 
+                (:agence_depart_id, :agence_arrivee_id, :date_heure_depart, :date_heure_arrivee, :places_totales, :places_disponibles, :auteur_id)";
+
+        $stmt = $this->db->prepare($sql);
 
         return $stmt->execute([
-            'depart'  => $data['depart'],
-            'arrivee' => $data['arrivee'],
-            'date'    => $data['date'],
-            'places'  => $data['places'],
-            'user_id' => $data['user_id']
+            'agence_depart_id'   => $data['agence_depart_id'],
+            'agence_arrivee_id'  => $data['agence_arrivee_id'],
+            'date_heure_depart'  => $data['date_heure_depart'],
+            'date_heure_arrivee' => $data['date_heure_arrivee'],
+            'places_totales'     => $data['places_totales'],
+            'places_disponibles' => $data['places_totales'], // Par défaut, disponible = total
+            'auteur_id'          => $data['auteur_id']
         ]);
     }
 

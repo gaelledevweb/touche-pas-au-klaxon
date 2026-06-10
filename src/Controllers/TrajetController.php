@@ -1,60 +1,38 @@
 <?php
 require_once __DIR__ . '/../Models/Trip.php';
 
-/**
- * Contrôleur gérant les trajets
- */
 class TrajetController
 {
     private Trip $tripModel;
+    private PDO $db;
 
     public function __construct(PDO $db)
     {
+        $this->db = $db;
         $this->tripModel = new Trip($db);
     }
 
-    /**
-     * Liste les trajets disponibles (accès public)
-     */
-    public function index()
+    public function index(): void
     {
         $trips = $this->tripModel->findAllAvailable();
         require_once __DIR__ . '/../Views/accueil.php';
     }
 
-    /**
-     * Affiche les détails d'un trajet (accès public)
-     */
-    public function show(int $id): void
+    public function create(): void
     {
-        $trip = $this->tripModel->findById($id);
-        if (!$trip) {
-            die("Ce trajet n'existe pas.");
-        }
-        require_once __DIR__ . '/../Views/details.php';
-    }
-
-    /**
-     * Affiche le formulaire de création (Accès protégé)
-     */
-    public function create()
-    {
-        // Vérification de la session
         if (!isset($_SESSION['user'])) {
             header('Location: index.php?page=login');
             exit;
         }
 
-        // Si connecté, on affiche la vue
+        $stmt = $this->db->query("SELECT * FROM agencies ORDER BY nom ASC");
+        $agencies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
         require_once __DIR__ . '/../Views/create.php';
     }
 
-    /**
-     * Enregistre le trajet en base de données
-     */
-    public function store()
+    public function store(): void
     {
-        // Sécurité : Vérifier si l'utilisateur est connecté
         if (!isset($_SESSION['user'])) {
             header('Location: index.php?page=login');
             exit;
@@ -62,18 +40,21 @@ class TrajetController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $data = [
-                'depart' => $_POST['depart'],
-                'arrivee' => $_POST['arrivee'],
-                'date' => $_POST['date'],
-                'places' => (int)$_POST['places'],
-                'user_id' => $_SESSION['user']['id'] // On lie le trajet à l'utilisateur connecté
+                'agence_depart_id'   => (int)$_POST['agence_depart_id'],
+                'agence_arrivee_id'  => (int)$_POST['agence_arrivee_id'],
+                'date_heure_depart'  => $_POST['date_heure_depart'],
+                'date_heure_arrivee' => $_POST['date_heure_arrivee'],
+                'places_totales'     => (int)$_POST['places_totales'],
+                'auteur_id'          => $_SESSION['user']['id']
             ];
 
-            // Appel au modèle (à créer dans Trip.php)
-            $this->tripModel->create($data);
+            if ($data['agence_depart_id'] === $data['agence_arrivee_id']) {
+                die("Erreur : L'agence de départ et d'arrivée doivent être différentes.");
+            }
 
+            $this->tripModel->create($data);
             header('Location: index.php?page=home');
             exit;
         }
-    }   
+    }
 }

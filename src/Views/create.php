@@ -3,24 +3,47 @@ require_once __DIR__ . '/includes/header.php';
 ?>
 
 <div class="container mt-4">
-    <h2>Proposer un nouveau trajet</h2>
-    <form action="index.php?page=store" method="POST" class="mt-4">
+    <h2 class="mb-4">Proposer un nouveau trajet</h2>
+
+    <form action="index.php?page=store" method="POST" class="needs-validation" novalidate>
+
         <div class="mb-3">
-            <label class="form-label">Ville de départ</label>
-            <input type="text" name="depart" class="form-control" required>
+            <label for="agence_depart_id" class="form-label">Ville de départ</label>
+            <select name="agence_depart_id" id="agence_depart_id" class="form-select" required>
+                <option value="">Sélectionnez une ville</option>
+                <?php if (isset($agencies)): foreach ($agencies as $agency): ?>
+                    <option value="<?= $agency['id'] ?>"><?= htmlspecialchars($agency['nom']) ?></option>
+                <?php endforeach; endif; ?>
+            </select>
         </div>
+
         <div class="mb-3">
-            <label class="form-label">Ville d'arrivée</label>
-            <input type="text" name="arrivee" class="form-control" required>
+            <label for="agence_arrivee_id" class="form-label">Ville d'arrivée</label>
+            <select name="agence_arrivee_id" id="agence_arrivee_id" class="form-select" required>
+                <option value="">Sélectionnez une ville</option>
+                <?php if (isset($agencies)): foreach ($agencies as $agency): ?>
+                    <option value="<?= $agency['id'] ?>"><?= htmlspecialchars($agency['nom']) ?></option>
+                <?php endforeach; endif; ?>
+            </select>
         </div>
+
         <div class="mb-3">
-            <label class="form-label">Date et heure</label>
-            <input type="datetime-local" name="date" class="form-control" required>
+            <label for="date_heure_depart" class="form-label">Date et heure de départ</label>
+            <input type="datetime-local" name="date_heure_depart" id="date_heure_depart" class="form-control" required>
         </div>
+
         <div class="mb-3">
-            <label class="form-label">Nombre de places</label>
-            <input type="number" name="places" class="form-control" min="1" required>
+            <label for="date_heure_arrivee" class="form-label">Date et heure d'arrivée</label>
+            <input type="datetime-local" name="date_heure_arrivee" id="date_heure_arrivee" class="form-control" required>
         </div>
+
+        <div class="mb-3">
+            <label for="places_totales" class="form-label">Nombre total de places</label>
+            <input type="number" name="places_totales" id="places_totales" class="form-control" min="1" required>
+        </div>
+
         <button type="submit" class="btn btn-primary">Enregistrer le trajet</button>
     </form>
 </div>
+
+<?php require_once __DIR__ . '/includes/footer.php'; ?>
