@@ -31,6 +31,18 @@ class TrajetController
         require_once __DIR__ . '/../Views/create.php';
     }
 
+    public function adminDashboard(): void
+    {
+        // Vérifier si connecté et si le rôle est 'admin'
+        if (!isset($_SESSION['user']) || $_SESSION['user']['role'] !== 'admin') {
+            header('Location: index.php?page=login');
+            exit;
+        }
+
+        // Si admin, on charge la vue admin
+        require_once __DIR__ . '/../Views/admin/dashboard.php';
+    }
+
     public function store(): void
     {
         if (!isset($_SESSION['user'])) {

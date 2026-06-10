@@ -22,6 +22,17 @@ switch ($page) {
         $controller->index();
         break;
 
+    case 'admin':
+        // Utilisation du TrajetController pour l'admin
+        $controller = new TrajetController($db);
+        $controller->adminDashboard();
+        break;
+
+    case 'login':
+        $controller = new AuthController($db);
+        $controller->login();
+        break;
+
     case 'details':
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
         if ($id) {
@@ -31,11 +42,6 @@ switch ($page) {
             http_response_code(400);
             echo "<h1>ID invalide</h1>";
         }
-        break;
-
-    case 'login':
-        $controller = new AuthController($db);
-        $controller->login();
         break;
 
     case 'logout':
