@@ -1,36 +1,48 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administration - Touche Pas Au Klaxon</title>
+    <title>Admin - Touche pas au klaxon</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Personnalisation */
+        .admin-header {
+            background-color: white;
+            border: 1px solid #dee2e6;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn-gray {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            margin-right: 10px;
+        }
+
+        .btn-black {
+            background-color: #212529;
+            color: white;
+        }
+    </style>
 </head>
-<body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-danger mb-4">
-    <div class="container">
-        <a class="navbar-brand fw-bold" href="index.php?page=admin">Admin Panel</a>
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<body class="bg-light">
 
-        <div class="collapse navbar-collapse" id="adminNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php?page=admin_users">Utilisateurs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php?page=admin_agencies">Agences</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="index.php?page=admin_trips">Trajets</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link btn btn-outline-light ms-lg-3" href="index.php?page=home">Déconnexion</a>
-                </li>
-            </ul>
+    <header class="admin-header container mt-3">
+        <a href="index.php?page=admin" class="text-dark fw-bold text-decoration-none h4 m-0">Touche pas au klaxon</a>
+
+        <div class="d-flex align-items-center">
+            <a href="index.php?page=admin_users" class="btn btn-gray me-2">Utilisateurs</a>
+            <a href="index.php?page=admin_agencies" class="btn btn-gray me-2">Agences</a>
+            <a href="index.php?page=admin_trips" class="btn btn-gray me-2">Trajets</a>
+
+            <span class="mx-3">Bonjour <?= htmlspecialchars($_SESSION['user']['prenom'] ?? 'Admin') ?></span>
+            <a href="index.php?page=logout" class="btn btn-black">Déconnexion</a>
         </div>
-    </div>
-</nav>
+    </header>

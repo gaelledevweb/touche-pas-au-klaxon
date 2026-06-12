@@ -1,66 +1,87 @@
 <?php
 
+/**
+ * Point d'entrée unique de l'application
+ */
+
 // Démarrage de la session
 session_start();
 
-/** * Chargement de la base de données 
- * @var PDO $db 
- */
+// Chargement des dépendances
 $db = require_once __DIR__ . '/../config/database.php';
 
-// Chargement des contrôleurs
 require_once __DIR__ . '/../src/Controllers/TrajetController.php';
 require_once __DIR__ . '/../src/Controllers/AuthController.php';
 
-// Récupération de la page
+// Récupération de la route demandée
 $page = $_GET['page'] ?? 'home';
 
-// Routeur
+// Initialisation des contrôleurs
+$trajetController = new TrajetController($db);
+$authController = new AuthController($db);
+
+// Routeur central
 switch ($page) {
+    // Pages Publiques
     case 'home':
-        $controller = new TrajetController($db);
-        $controller->index();
+        $trajetController->index();
         break;
-
-    case 'admin':
-        // Utilisation du TrajetController pour l'admin
-        $controller = new TrajetController($db);
-        $controller->adminDashboard();
-        break;
-
-    case 'login':
-        $controller = new AuthController($db);
-        $controller->login();
-        break;
-
     case 'details':
         $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-        if ($id) {
-            $controller = new TrajetController($db);
-            $controller->show($id);
-        } else {
-            http_response_code(400);
-            echo "<h1>ID invalide</h1>";
-        }
+        $id ? $trajetController->show($id) : print("<h1>ID invalide</h1>");
         break;
-
-    case 'logout':
-        $controller = new AuthController($db);
-        $controller->logout();
-        break;
-    
     case 'create':
-        $controller = new TrajetController($db);
-        $controller->create();
+        $trajetController->create();
         break;
-
     case 'store':
-        $controller = new TrajetController($db);
-        $controller->store();
+        $trajetController->store();
         break;
 
+    // Pages Auth
+    case 'login':
+        $authController->login();
+        break;
+    case 'logout':
+        $authController->logout();
+        break;
+
+    // Pages Administrateur
+    case 'admin':
+        $trajetController->adminDashboard();
+        break;
+    case 'admin_users':
+        $trajetController->listUsers();
+        break;
+    case 'admin_delete_user':
+        $trajetController->deleteUser((int)($_GET['id'] ?? 0));
+        break;
+    case 'admin_agencies':
+        $trajetController->listAgencies();
+        break;
+    case 'admin_delete_agency':
+        $trajetController->deleteAgency((int)($_GET['id'] ?? 0));
+        break;
+    case 'admin_add_agency':
+        $trajetController->createAgency();
+        break;
+    case 'admin_store_agency':
+        $trajetController->storeAgency();
+        break;
+    case 'admin_edit_agency':
+        $trajetController->editAgency((int)$_GET['id']);
+        break;
+    case 'admin_update_agency':
+        $trajetController->updateAgency((int)$_GET['id']);
+        break;
+    case 'admin_trips':
+        $trajetController->listTrips();
+        break;
+    case 'admin_delete_trip':
+        $trajetController->deleteTrip((int)($_GET['id'] ?? 0));
+        break;
+
+    // Erreur par défaut
     default:
-        http_response_code(404);
-        echo "<h1>Page non trouvée</h1>";
+        $trajetController->index();
         break;
 }
