@@ -22,7 +22,6 @@
             <p><strong>Places disponibles :</strong> <?= htmlspecialchars($trip['places_disponibles']) ?></p>
             
             <a href="index.php?page=home" class="btn btn-secondary">Retour à la liste</a>
-            <a href="#" class="btn btn-success">Confirmer la réservation</a>
         </div>
     </div>
 </div>

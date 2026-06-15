@@ -1,9 +1,5 @@
 <?php
 
-/**
- * Point d'entrée unique de l'application
- */
-
 // Démarrage de la session
 session_start();
 
@@ -35,6 +31,16 @@ switch ($page) {
         break;
     case 'store':
         $trajetController->store();
+        break;
+
+    // Routes pour modifications et suppressions
+    case 'edit':
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $id ? $trajetController->edit($id) : print("<h1>ID invalide</h1>");
+        break;
+    case 'delete':
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        $id ? $trajetController->delete($id) : print("<h1>ID invalide</h1>");
         break;
 
     // Pages Auth
@@ -77,10 +83,8 @@ switch ($page) {
         $trajetController->listTrips();
         break;
     case 'admin_delete_trip':
-        $trajetController->deleteTrip((int)($_GET['id'] ?? 0));
+        $trajetController->deleteTrip((int)$_GET['id']);
         break;
-
-    // Erreur par défaut
     default:
         $trajetController->index();
         break;
