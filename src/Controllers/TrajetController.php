@@ -14,7 +14,6 @@ class TrajetController
 
     public function index(): void
     {
-        // Supposons que findAllAvailable() retourne les trajets avec les infos nécessaires
         $trips = $this->tripModel->findAllAvailable();
         require_once __DIR__ . '/../Views/accueil.php';
     }
